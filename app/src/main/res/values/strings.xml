@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Celestial based GPS app</string>
+    <string name="latitude_txt">Latitude:</string>
+    <string name="longitude_txt">Longitude:</string>
+    <string name="location_txt">Your location:</string>
+    <string name="get_location_btn">Get location</string>
+    <string name="browse_photo_btn">1. Browse photo</string>
+    <string name="log_in_btn">0. Log in</string>
+    <string name="logged_in_txt">Logged in</string>
+    <string name="upload_btn">2. Upload</string>
+    <string name="check_submission_btn">3. Check submission</string>
+    <string name="result_txt">Result:</string>
+    <string name="submission_id_txt">Submission Id:</string>
+    <string name="jobs_ids_txt">Jobs IDs:</string>
+    <string name="check_jobs_btn">4. Check Jobs</string>
+    <string name="calculate_location_btn">5.Calculate location</string>
+    <string name="azimuth_hint">Azimuth</string>
+    <string name="roll_hint">Roll</string>
+    <string name="pitch_hint">Pitch</string>
+    <string name="orientation_txt">Orientation</string>
+
+    <array name="photo_array">
+        <item>Photo Library</item>
+        <item>Camera</item>
+        <item>Cancel</item>
+    </array>
+</resources>

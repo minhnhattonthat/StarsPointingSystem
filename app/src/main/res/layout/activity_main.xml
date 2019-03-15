@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="subId"
+            type="int" />
+
+        <variable
+            name="subId2"
+            type="int" />
+
+        <variable
+            name="jobs"
+            type="java.util.List&lt;Integer>" />
+
+        <variable
+            name="jobs2"
+            type="java.util.List&lt;Integer>" />
+
+        <variable
+            name="jobResult1"
+            type="com.celestial.gps.AstrometryModel.JobResult" />
+
+        <variable
+            name="jobResult2"
+            type="com.celestial.gps.AstrometryModel.JobResult" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/log_in_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioButton2" />
+
+        <TextView
+            android:id="@+id/logged_in_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/logged_in_txt"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/login_button"
+            app:layout_constraintTop_toBottomOf="@+id/radioButton2" />
+
+        <ImageView
+            android:id="@+id/preview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@null"
+            app:layout_constraintBottom_toBottomOf="@+id/radioButton"
+            app:layout_constraintEnd_toStartOf="@id/result_txt"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/orientation_text"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <TextView
+            android:id="@+id/orientation_text"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/orientation_txt"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/orientation_values"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(subId)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/orientation_text"
+            tools:text="[0.12, 0.8, 1.34]" />
+
+        <TextView
+            android:id="@+id/submit_txt"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_id_txt"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/orientation_values" />
+
+        <TextView
+            android:id="@+id/submission_id"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(subId)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/submit_txt"
+            tools:text="123456" />
+
+        <TextView
+            android:id="@+id/job_txt"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/jobs_ids_txt"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/submission_id" />
+
+        <TextView
+            android:id="@+id/job_ids"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/job_txt"
+            tools:text="123, 123" />
+
+        <TextView
+            android:id="@+id/result_txt"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/result_txt"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/job_ids" />
+
+        <TextView
+            android:id="@+id/stars_result"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/result_txt"
+            tools:text="Orient, Orion" />
+
+        <ImageView
+            android:id="@+id/preview2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@null"
+            app:layout_constraintBottom_toBottomOf="@+id/radioButton2"
+            app:layout_constraintEnd_toStartOf="@id/result_txt"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/orientation_text2"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Image 1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/stars_result"
+            app:layout_constraintTop_toBottomOf="@+id/stars_result" />
+
+        <TextView
+            android:id="@+id/orientation_text2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/orientation_txt"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioButton" />
+
+        <TextView
+            android:id="@+id/orientation_values2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/orientation_text2"
+            tools:text="[0.12, 0.8, 1.34]" />
+
+        <TextView
+            android:id="@+id/submit_txt2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/submission_id_txt"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/orientation_values2" />
+
+        <TextView
+            android:id="@+id/submission_id2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(subId2)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/submit_txt2"
+            tools:text="123456" />
+
+        <TextView
+            android:id="@+id/job_txt2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/jobs_ids_txt"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/submission_id2" />
+
+        <TextView
+            android:id="@+id/job_ids2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/job_txt2"
+            tools:text="123, 123" />
+
+        <TextView
+            android:id="@+id/result_txt2"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="@string/result_txt"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/job_ids2" />
+
+        <TextView
+            android:id="@+id/stars_result2"
+            android:layout_width="150dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/result_txt2"
+            tools:text="Orient, Orion" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Image 2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/stars_result2"
+            app:layout_constraintTop_toBottomOf="@+id/stars_result2" />
+
+        <Button
+            android:id="@+id/browse_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/browse_photo_btn"
+            app:layout_constraintEnd_toStartOf="@+id/upload_button"
+            app:layout_constraintStart_toEndOf="@+id/login_button"
+            app:layout_constraintTop_toBottomOf="@+id/radioButton2" />
+
+        <Button
+            android:id="@+id/upload_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/upload_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioButton2" />
+
+        <Button
+            android:id="@+id/check_submission_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/check_submission_btn"
+            app:layout_constraintEnd_toStartOf="@+id/check_jobs_button"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/browse_button" />
+
+        <Button
+            android:id="@+id/check_jobs_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/check_jobs_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/check_submission_button"
+            app:layout_constraintTop_toBottomOf="@+id/browse_button" />
+
+        <Button
+            android:id="@+id/calculate_location_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/calculate_location_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check_submission_button" />
+
+        <TextView
+            android:id="@+id/location_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/location_txt"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/calculate_location_button" />
+
+        <TextView
+            android:id="@+id/lng_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/longitude_txt"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/longitude"
+            app:layout_constraintStart_toEndOf="@+id/location_txt"
+            app:layout_constraintTop_toBottomOf="@+id/calculate_location_button" />
+
+        <TextView
+            android:id="@+id/longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/lng_text"
+            app:layout_constraintTop_toBottomOf="@+id/calculate_location_button"
+            tools:text="102.33" />
+
+        <TextView
+            android:id="@+id/lat_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/latitude_txt"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/latitude"
+            app:layout_constraintStart_toEndOf="@+id/location_txt"
+            app:layout_constraintTop_toBottomOf="@+id/lng_text" />
+
+        <TextView
+            android:id="@+id/latitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/lat_text"
+            app:layout_constraintTop_toBottomOf="@+id/longitude"
+            tools:text="12.33" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
