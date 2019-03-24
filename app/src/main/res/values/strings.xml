@@ -5,7 +5,7 @@
     <string name="location_txt">Your location:</string>
     <string name="get_location_btn">Get location</string>
     <string name="browse_photo_btn">1. Browse photo</string>
-    <string name="log_in_btn">0. Log in</string>
+    <string name="log_in_btn">Log in</string>
     <string name="logged_in_txt">Logged in</string>
     <string name="upload_btn">2. Upload</string>
     <string name="check_submission_btn">3. Check submission</string>
@@ -24,4 +24,7 @@
         <item>Camera</item>
         <item>Cancel</item>
     </array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".OrientationFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2. Set orientation" />
+
+    <Switch
+        android:id="@+id/auto_switch"
+        android:layout_width="250dp"
+        android:layout_height="10dp"
+        android:text="Auto" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Azimuth" />
+
+    <EditText
+        android:id="@+id/azimuth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Input azimuth"
+        android:inputType="numberDecimal"
+        tools:ignore="Autofill" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pitch" />
+
+    <EditText
+        android:id="@+id/pitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Input pitch"
+        android:inputType="numberDecimal"
+        tools:ignore="Autofill" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Roll" />
+
+    <EditText
+        android:id="@+id/roll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Input roll"
+        android:inputType="numberDecimal"
+        tools:ignore="Autofill" />
+
+    <Button
+        android:id="@+id/orientation_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm orientation" />
+
+</LinearLayout>

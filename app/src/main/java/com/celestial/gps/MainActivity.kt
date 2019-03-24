@@ -45,8 +45,8 @@ private const val REQUEST_STORAGE_PERMISSION = 6
 
 private const val ASTROMETRY_API_KEY = "muczweheoermnzwt"
 
-private const val FIRST_PHOTO = 0
-private const val SECOND_PHOTO = 1
+private const val FIRST_PHOTO_1 = 0
+private const val SECOND_PHOTO_2 = 1
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var jobs: List<Int>? = emptyList()
     private var jobs2: List<Int>? = emptyList()
 
-    private var currentPhoto: Int = FIRST_PHOTO
+    private var currentPhoto: Int = FIRST_PHOTO_1
 
     private var photo: File? = null
     private var photo2: File? = null
@@ -68,12 +68,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private var jobResult1: AstrometryModel.JobResult? = null
     private var jobResult2: AstrometryModel.JobResult? = null
-
-    private var azimuth1: Double = 0.0
-    private var azimuth2: Double = 0.0
-
-    private var altitude1: Double = 0.0
-    private var altitude2: Double = 0.0
 
     private var orientationAngles1 = FloatArray(3)
     private var orientationAngles2 = FloatArray(3)
@@ -150,14 +144,14 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         radioButton.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                currentPhoto = FIRST_PHOTO
+                currentPhoto = FIRST_PHOTO_1
                 radioButton2.isChecked = false
             }
         }
 
         radioButton2.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                currentPhoto = SECOND_PHOTO
+                currentPhoto = SECOND_PHOTO_2
                 radioButton.isChecked = false
             }
         }
@@ -211,7 +205,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CAMERA) {
                 updateOrientationAngles()
-                if (currentPhoto == FIRST_PHOTO) {
+                if (currentPhoto == FIRST_PHOTO_1) {
                     photo = File(mCurrentPhotoPath)
                     Glide.with(this).load(photo).into(preview)
                     orientationAngles1 = orientationAngles.clone()
@@ -223,7 +217,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                     orientation_values2.text = orientationAngles2.toStringDisplay()
                 }
             } else if (requestCode == REQUEST_LIBRARY && data?.data != null) {
-                if (currentPhoto == FIRST_PHOTO) {
+                if (currentPhoto == FIRST_PHOTO_1) {
                     photo = FileUtils.getFile(this, data.data)
                     Glide.with(this).load(photo).into(preview)
                 } else {
@@ -242,7 +236,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                             Toast.makeText(this, "Please input all data", Toast.LENGTH_SHORT).show()
                             return@setPositiveButton
                         }
-                        if (currentPhoto == FIRST_PHOTO) {
+                        if (currentPhoto == FIRST_PHOTO_1) {
                             orientationAngles1[0] = azimuthText.text.toString().toFloat()
                             orientationAngles1[1] = pitchText.text.toString().toFloat()
                             orientationAngles1[2] = rollText.text.toString().toFloat()
@@ -312,8 +306,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             Toast.makeText(this, "Need to login first.", Toast.LENGTH_SHORT).show()
             return false
         }
-        if ((currentPhoto == FIRST_PHOTO && photo == null)
-            || currentPhoto == SECOND_PHOTO && photo2 == null
+        if ((currentPhoto == FIRST_PHOTO_1 && photo == null)
+            || currentPhoto == SECOND_PHOTO_2 && photo2 == null
         ) {
             Toast.makeText(this, "Need to select a photo.", Toast.LENGTH_SHORT).show()
             return false
@@ -323,7 +317,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private fun upload() {
         val uploadRequest = AstrometryModel.UploadRequest("y", "d", sessionKey, "d")
-        val uploadPhoto = if (currentPhoto == FIRST_PHOTO) photo else photo2
+        val uploadPhoto = if (currentPhoto == FIRST_PHOTO_1) photo else photo2
 
         disposable = astrometryService.upload(
             getStringAsPart(Gson().toJson(uploadRequest)),
@@ -338,7 +332,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun uploadSuccess(subId: Int) {
-        if (currentPhoto == FIRST_PHOTO) {
+        if (currentPhoto == FIRST_PHOTO_1) {
             this.subId = subId
             this.jobs = emptyList()
             this.jobResult1 = null
@@ -408,28 +402,29 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 this, arrayOf(android.Manifest.permission.CAMERA),
                 REQUEST_CAMERA_PERMISSION
             )
-        } else {
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            return
+        }
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
-            if (takePictureIntent.resolveActivity(packageManager) != null) {
-                // Create the File where the photo should go
-                var photoFile: File? = null
-                try {
-                    photoFile = createImageFile()
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                val photoFile: File? = try {
+                    createImageFile()
                 } catch (ex: IOException) {
                     // Error occurred while creating the File
+                    null
                 }
-
                 // Continue only if the File was successfully created
-                if (photoFile != null) {
+                photoFile?.also {
                     val photoURI = FileProvider.getUriForFile(
                         this,
-                        "com.celestial.gps", photoFile
+                        "com.celestial.gps",
+                        it
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     startActivityForResult(takePictureIntent, REQUEST_CAMERA)
                 }
             }
+
         }
     }
 
@@ -451,7 +446,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun getSubmissionStatus() {
-        val currentSubId = if (currentPhoto == FIRST_PHOTO) subId else subId2
+        val currentSubId = if (currentPhoto == FIRST_PHOTO_1) subId else subId2
         disposable = astrometryService.getSubmissionStatus(currentSubId.toString())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -462,7 +457,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun showJobs(submissionStatus: AstrometryModel.SubmissionStatus?) {
-        if (currentPhoto == FIRST_PHOTO) {
+        if (currentPhoto == FIRST_PHOTO_1) {
             jobs = submissionStatus?.jobs
             jobResult1 = null
 
@@ -478,7 +473,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private fun getJobResults() {
         if (!checkJobs()) return
 
-        val currentJobs = if (currentPhoto == FIRST_PHOTO) jobs else jobs2
+        val currentJobs = if (currentPhoto == FIRST_PHOTO_1) jobs else jobs2
 //        val jobIds = currentJobs?.map { it.toString() }?.toTypedArray()
 
 //        AlertDialog.Builder(this)
@@ -504,7 +499,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun checkJobs(): Boolean {
-        val currentJobs = if (currentPhoto == FIRST_PHOTO) jobs else jobs2
+        val currentJobs = if (currentPhoto == FIRST_PHOTO_1) jobs else jobs2
         if (currentJobs == null) {
             Toast.makeText(this, "No jobs available", Toast.LENGTH_SHORT).show()
             return false
@@ -513,7 +508,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun showResult(result: AstrometryModel.JobResult?) {
-        if (currentPhoto == FIRST_PHOTO) {
+        if (currentPhoto == FIRST_PHOTO_1) {
             if (result?.status == "success") jobResult1 = result
             stars_result.text = result?.status
         } else {
