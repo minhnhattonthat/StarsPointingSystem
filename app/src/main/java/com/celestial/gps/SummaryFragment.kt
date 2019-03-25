@@ -102,12 +102,17 @@ class SummaryFragment : BaseFragment() {
                     { result ->
                         if (currentPhoto == FIRST_PHOTO) {
                             status_1.text = result.status
-                            if (result.status == "success") AstrometryManager.jobResult1 = result
+                            if (result.status == "success") {
+                                AstrometryManager.jobResult1 = result
+                                Toast.makeText(context, "Solved!", Toast.LENGTH_SHORT).show()
+                            }
                         } else {
                             status_2.text = result.status
-                            if (result.status == "success") AstrometryManager.jobResult2 = result
+                            if (result.status == "success") {
+                                AstrometryManager.jobResult2 = result
+                                Toast.makeText(context, "Solved!", Toast.LENGTH_SHORT).show()
+                            }
                         }
-                        Toast.makeText(context, "Result success!", Toast.LENGTH_SHORT).show()
                     },
                     { error -> showError(error.message) }
                 )
@@ -128,7 +133,7 @@ class SummaryFragment : BaseFragment() {
         if (AstrometryManager.jobResult1 == null || AstrometryManager.jobResult2 == null) {
             Toast.makeText(
                 context,
-                "Haven't finish to solve or Failed to solve",
+                "Haven't finish solving photo or Photo failed to solve",
                 Toast.LENGTH_SHORT
             ).show()
             return false

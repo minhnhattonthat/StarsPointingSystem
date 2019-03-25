@@ -18,6 +18,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
+import com.celestial.gps.CameraManager.ImageSaver
 import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -82,7 +83,7 @@ class PhotoFragment : BaseFragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CAMERA) {
-                photo = File(mCurrentPhotoPath)
+                photo = ImageSaver.lastTakenImage
             } else if (requestCode == REQUEST_LIBRARY && data?.data != null) {
                 photo = FileUtils.getFile(context, data.data)
             }
@@ -167,27 +168,47 @@ class PhotoFragment : BaseFragment() {
             )
             return
         }
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            // Ensure that there's a camera activity to handle the intent
-            takePictureIntent.resolveActivity(activity!!.packageManager)?.also {
-                val photoFile: File? = try {
-                    createImageFile()
-                } catch (ex: IOException) {
-                    // Error occurred while creating the File
-                    null
-                }
-                // Continue only if the File was successfully created
-                photoFile?.also {
-                    val photoURI = FileProvider.getUriForFile(
-                        context!!,
-                        "com.celestial.gps",
-                        it
-                    )
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, REQUEST_CAMERA)
-                }
-            }
-
+//        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+//            // Ensure that there's a camera activity to handle the intent
+//            takePictureIntent.resolveActivity(activity!!.packageManager)?.also {
+//                val photoFile: File? = try {
+//                    createImageFile()
+//                } catch (ex: IOException) {
+//                    // Error occurred while creating the File
+//                    null
+//                }
+//                // Continue only if the File was successfully created
+//                photoFile?.also {
+//                    val photoURI = FileProvider.getUriForFile(
+//                        context!!,
+//                        "com.celestial.gps",
+//                        it
+//                    )
+//                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+//                    startActivityForResult(takePictureIntent, REQUEST_CAMERA)
+//                }
+//            }
+//        }
+//        Intent("android.intent.action.ACTION_IMAGE_CAPTURE").also { takePictureIntent ->
+//            val photoFile: File? = try {
+//                createImageFile()
+//            } catch (ex: IOException) {
+//                // Error occurred while creating the File
+//                null
+//            }
+//            // Continue only if the File was successfully created
+//            photoFile?.also {
+//                val photoURI = FileProvider.getUriForFile(
+//                    context!!,
+//                    "com.celestial.gps",
+//                    it
+//                )
+//                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+//                startActivityForResult(takePictureIntent, REQUEST_CAMERA)
+//            }
+//        }
+        Intent(context, FullscreenActivity::class.java).also { takePictureIntent ->
+            startActivityForResult(takePictureIntent, REQUEST_CAMERA)
         }
     }
 

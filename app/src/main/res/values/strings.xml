@@ -18,6 +18,8 @@
     <string name="roll_hint">Roll</string>
     <string name="pitch_hint">Pitch</string>
     <string name="orientation_txt">Orientation</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <array name="photo_array">
         <item>Photo Library</item>
