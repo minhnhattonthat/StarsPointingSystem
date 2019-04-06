@@ -14,6 +14,7 @@ import retrofit2.http.*
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.OkHttpClient
 import com.google.gson.GsonBuilder
+import java.util.concurrent.TimeUnit
 
 
 interface AstrometryService {
@@ -35,6 +36,7 @@ interface AstrometryService {
     companion object {
         fun create(): AstrometryService {
             val httpClient = OkHttpClient.Builder()
+            httpClient.readTimeout(120, TimeUnit.SECONDS).writeTimeout(120, TimeUnit.SECONDS).connectTimeout(120, TimeUnit.SECONDS)
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = HttpLoggingInterceptor.Level.BODY
             httpClient.interceptors().add(interceptor)

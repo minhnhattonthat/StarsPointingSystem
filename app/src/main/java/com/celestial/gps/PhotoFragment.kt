@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -111,7 +112,10 @@ class PhotoFragment : BaseFragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { result -> uploadSuccess(result.subId) },
-                { error -> showError(error.message) }
+                { error ->
+                    Log.d("Error", "timeout?", error)
+                    showError(error.message)
+                }
             )
     }
 

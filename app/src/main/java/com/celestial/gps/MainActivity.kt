@@ -528,8 +528,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 ra2 = jobResult2?.calibration?.ra!!,
                 dec2 = jobResult2?.calibration?.dec!!,
                 azimuth2 = orientationAngles2[0].toDouble(),
-                altitude2 = orientationAngles2[1].toDouble(),
-                day = day
+                altitude2 = orientationAngles2[1].toDouble()
             )
             longitude.text = location?.longitude.toString()
             latitude.text = location?.latitude.toString()

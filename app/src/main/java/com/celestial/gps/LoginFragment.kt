@@ -43,5 +43,13 @@ class LoginFragment : BaseFragment() {
                         { error -> showError(error.message) }
                     )
         }
+
+        test_button.setOnClickListener { view ->
+            view.findNavController().navigate(R.id.testFragment)
+        }
+
+        orientation_button.setOnClickListener { view ->
+            view.findNavController().navigate(R.id.orientationFragment)
+        }
     }
 }

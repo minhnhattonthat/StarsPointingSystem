@@ -189,10 +189,6 @@ public class FullscreenActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d("DEBUG", "OPEN PHOTOS NOW");
                 if (ImageSaver.lastTakenImage != null) {
-//                    Intent intent = new Intent();
-//                    intent.setAction(Intent.ACTION_VIEW);
-//                    intent.setDataAndType(Uri.parse(path), "image/*");
-//                    startActivity(intent);
                     if (AstrometryManager.INSTANCE.getCurrentPhoto() == 0) {
                         AstrometryManager.INSTANCE.setPhoto(ImageSaver.lastTakenImage);
                     } else {

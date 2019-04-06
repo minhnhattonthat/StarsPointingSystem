@@ -56,13 +56,13 @@ class OrientationFragment : Fragment(), SensorEventListener {
         super.onViewCreated(view, savedInstanceState)
         orientation_button.setOnClickListener {
             if (AstrometryManager.currentPhoto == 0) {
-                AstrometryManager.orientationAngles1[0] = azimuth.text.toString().toFloat()
-                AstrometryManager.orientationAngles1[1] = pitch.text.toString().toFloat()
-                AstrometryManager.orientationAngles1[2] = roll.text.toString().toFloat()
+                AstrometryManager.orientationAngles1[0] = (azimuth.text.toString().toDouble() * Math.PI / 180).toFloat()
+                AstrometryManager.orientationAngles1[1] = (pitch.text.toString().toDouble() * Math.PI / 180).toFloat()
+                AstrometryManager.orientationAngles1[2] = (roll.text.toString().toDouble() * Math.PI / 180).toFloat()
             } else {
-                AstrometryManager.orientationAngles2[0] = azimuth.text.toString().toFloat()
-                AstrometryManager.orientationAngles2[1] = pitch.text.toString().toFloat()
-                AstrometryManager.orientationAngles2[2] = roll.text.toString().toFloat()
+                AstrometryManager.orientationAngles2[0] = (azimuth.text.toString().toDouble() * Math.PI / 180).toFloat()
+                AstrometryManager.orientationAngles2[1] = (pitch.text.toString().toDouble() * Math.PI / 180).toFloat()
+                AstrometryManager.orientationAngles2[2] = (roll.text.toString().toDouble() * Math.PI / 180).toFloat()
             }
 
             view.findNavController().navigate(R.id.summaryFragment)
@@ -138,10 +138,13 @@ class OrientationFragment : Fragment(), SensorEventListener {
         SensorManager.getOrientation(rotationMatrix, orientationAngles)
 
         // "orientationAngles" now has up-to-date information.
-
-        azimuth.setText(orientationAngles[0].toString())
-        pitch.setText(orientationAngles[1].toString())
-        roll.setText(orientationAngles[2].toString())
+        val a = (orientationAngles[0] * 180 / Math.PI)
+//        val a = Math.round((orientationAngles[0] * 180 / Math.PI) * 100) / 100
+        val p = (orientationAngles[1] * 180 / Math.PI)
+        val r = (orientationAngles[2] * 180 / Math.PI)
+        azimuth.setText(a.toString())
+        pitch.setText(p.toString())
+        roll.setText(r.toString())
     }
 
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {

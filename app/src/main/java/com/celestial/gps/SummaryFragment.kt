@@ -145,16 +145,19 @@ class SummaryFragment : BaseFragment() {
     private fun calculateLocation() {
         if (checkEnoughData()) {
             val day = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
+            val azimuth1 = if (AstrometryManager.orientationAngles1[0].toDouble() > 0 ) AstrometryManager.orientationAngles1[0].toDouble() else AstrometryManager.orientationAngles1[0].toDouble() + 2 * Math.PI
+            val azimuth2 = if (AstrometryManager.orientationAngles2[0].toDouble() > 0) AstrometryManager.orientationAngles2[0].toDouble() else AstrometryManager.orientationAngles2[0].toDouble()
+            val altitude1 = if (AstrometryManager.orientationAngles1[1].toDouble() > 0) AstrometryManager.orientationAngles1[1].toDouble() else AstrometryManager.orientationAngles1[1].toDouble()
+            val altitude2 = if (AstrometryManager.orientationAngles2[1].toDouble() > 0) AstrometryManager.orientationAngles2[1].toDouble() else AstrometryManager.orientationAngles2[1].toDouble()
             val location = getLocation(
                 ra1 = AstrometryManager.jobResult1?.calibration?.ra!!,
                 dec1 = AstrometryManager.jobResult1?.calibration?.dec!!,
-                azimuth1 = AstrometryManager.orientationAngles1[0].toDouble(),
-                altitude1 = AstrometryManager.orientationAngles1[1].toDouble(),
+                azimuth1 = azimuth1,
+                altitude1 = altitude1,
                 ra2 = AstrometryManager.jobResult2?.calibration?.ra!!,
                 dec2 = AstrometryManager.jobResult2?.calibration?.dec!!,
-                azimuth2 = AstrometryManager.orientationAngles2[0].toDouble(),
-                altitude2 = AstrometryManager.orientationAngles2[1].toDouble(),
-                day = day
+                azimuth2 = azimuth2,
+                altitude2 = altitude2
             )
             longitude.text = location?.longitude.toString()
             latitude.text = location?.latitude.toString()

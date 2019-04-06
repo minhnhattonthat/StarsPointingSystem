@@ -22,6 +22,12 @@
         <action
             android:id="@+id/action_loginFragment_to_summaryFragment"
             app:destination="@id/summaryFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_testFragment2"
+            app:destination="@id/testFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_orientationFragment"
+            app:destination="@id/orientationFragment" />
     </fragment>
     <fragment
         android:id="@+id/orientationFragment"
@@ -43,4 +49,9 @@
             app:popUpTo="@id/photoFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/testFragment"
+        android:name="com.celestial.gps.TestFragment"
+        android:label="fragment_test"
+        tools:layout="@layout/fragment_test" />
 </navigation>
