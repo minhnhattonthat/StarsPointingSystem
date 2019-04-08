@@ -1,17 +1,16 @@
 package com.celestial.gps
 
-import java.util.*
-
 fun getLocation(
     ra1: Double, dec1: Double, azimuth1: Double, altitude1: Double,
-    ra2: Double, dec2: Double, azimuth2: Double, altitude2: Double
+    ra2: Double, dec2: Double, azimuth2: Double, altitude2: Double,
+    timeInMillis: Long
 ): Model.Location? {
 
-    val gst = calculateGst()
+    val lst = calculateLst(timeInMillis)
     val hourAngle1 = calculateHourAngle(altitude1, azimuth1, dec1)
     val hourAngle2 = calculateHourAngle(altitude2, azimuth2, dec2)
 
-    val longitude = calculateLongitude(gst, ra1, hourAngle1)
+    val longitude = calculateLongitude(lst, ra1, hourAngle1)
     val latitude = calculateLatitude(altitude1, dec1, hourAngle1, altitude2, dec2, hourAngle2)
 
     return Model.Location(longitude, latitude)
@@ -19,15 +18,13 @@ fun getLocation(
 
 fun calculateHourAngle(altitude: Double, azimuth: Double, dec: Double): Double {
     var hourAngle = Math.asin((Math.cos(altitude) * Math.sin(azimuth)) / Math.cos(dec))
-//    if (hourAngle < 0) hourAngle += 2 * Math.PI
+    if (hourAngle > 0) hourAngle *= (-1)
     return hourAngle
 }
 
-fun calculateGst(): Double {
+fun calculateGst(timeInMillis: Long): Double {
     val J2000 = 946728000000
-////    val cal = Calendar.getInstance()
-////    cal.timeInMillis = 1553520720000
-    val timeInMillis = Calendar.getInstance().timeInMillis
+
 //    val timeInMillis = 1553520720000
     val tu = (timeInMillis - J2000) / (36525.0 * 86400000)
     var gmst =
@@ -39,8 +36,13 @@ fun calculateGst(): Double {
 //    return 6.6208844 + 0.0657098244 * 84 + 1.00273791 * 8
 }
 
-fun calculateLongitude(gst: Double, ra: Double, hourAngle: Double): Double {
-    return gst - Math.toDegrees(ra) - Math.toDegrees(hourAngle)
+fun calculateLst(timeInMillis: Long): Double {
+    val gst = calculateGst(timeInMillis)
+    return gst + 105
+}
+
+fun calculateLongitude(lst: Double, ra: Double, hourAngle: Double): Double {
+    return lst - Math.toDegrees(ra) - Math.toDegrees(hourAngle)
 }
 
 @Suppress("UnnecessaryVariable")
@@ -73,12 +75,18 @@ fun getLocationNew(
     ra1: Double,
     dec1: Double,
     azimuth2: Double,
-    altitude2: Double
+    altitude2: Double,
+    timeInMillis: Long
 ): Model.Location? {
-    val ra2 = ra1 + Math.toRadians(238.1575)
-    val dec2 = dec1 + Math.toRadians(18.71625)
-    val azimuth1 = azimuth2 - Math.toRadians(238.1575)
-    val altitude1 = altitude2 - Math.toRadians(18.71625)
+    var ra2 = ra1 + Math.toRadians(240.960164)
+    ra2 = if (ra2 < 0) ra2 - 2 * Math.PI else ra2
 
-    return getLocation(ra1, dec1, azimuth1, altitude1, ra2, dec2, azimuth2, altitude2)
+    val dec2 = dec1 + Math.toRadians(21.40824178)
+
+    var azimuth1 = azimuth2 - Math.toRadians(240.960164)
+    azimuth1 = if (azimuth1 < 0) azimuth1 + 2 * Math.PI else azimuth1
+
+    val altitude1 = altitude2 - Math.toRadians(21.40824178)
+
+    return getLocation(ra1, dec1, azimuth1, altitude1, ra2, dec2, azimuth2, altitude2, timeInMillis)
 }

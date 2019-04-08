@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_loginFragment_to_orientationFragment"
             app:destination="@id/orientationFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_summaryOneFragment"
+            app:destination="@id/summaryOneFragment" />
     </fragment>
     <fragment
         android:id="@+id/orientationFragment"
@@ -37,6 +40,9 @@
         <action
             android:id="@+id/action_orientationFragment_to_summaryFragment"
             app:destination="@id/summaryFragment" />
+        <action
+            android:id="@+id/action_orientationFragment_to_summaryOneFragment2"
+            app:destination="@id/summaryOneFragment" />
     </fragment>
     <fragment
         android:id="@+id/summaryFragment"
@@ -54,4 +60,13 @@
         android:name="com.celestial.gps.TestFragment"
         android:label="fragment_test"
         tools:layout="@layout/fragment_test" />
+    <fragment
+        android:id="@+id/summaryOneFragment"
+        android:name="com.celestial.gps.SummaryOneFragment"
+        android:label="fragment_summary_one"
+        tools:layout="@layout/fragment_summary_one" >
+        <action
+            android:id="@+id/action_summaryOneFragment_to_photoFragment"
+            app:destination="@id/photoFragment" />
+    </fragment>
 </navigation>

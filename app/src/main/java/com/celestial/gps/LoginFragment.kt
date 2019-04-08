@@ -11,8 +11,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_login.*
 
-private const val ASTROMETRY_API_KEY = "muczweheoermnzwt"
-
 /**
  * A simple [Fragment] subclass.
  */
@@ -28,20 +26,12 @@ class LoginFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        login_button.setOnClickListener {
-            val apiKey = AstrometryModel.ApiKey(ASTROMETRY_API_KEY)
+        one_photo_mode.setOnClickListener {
+            login(it, ONE_PHOTO)
+        }
 
-            disposable =
-                astrometryService.login(Gson().toJson(apiKey))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                        { result ->
-                            AstrometryManager.sessionKey = result.session
-                            view.findNavController().navigate(R.id.summaryFragment)
-                        },
-                        { error -> showError(error.message) }
-                    )
+        two_photo_mode.setOnClickListener {
+            login(it, TWO_PHOTO)
         }
 
         test_button.setOnClickListener { view ->
@@ -51,5 +41,27 @@ class LoginFragment : BaseFragment() {
         orientation_button.setOnClickListener { view ->
             view.findNavController().navigate(R.id.orientationFragment)
         }
+    }
+
+    private fun login(view: View, mode: Int) {
+        val apiKey = AstrometryModel.ApiKey(ASTROMETRY_API_KEY)
+
+        disposable =
+            astrometryService.login(Gson().toJson(apiKey))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { result ->
+                        AstrometryManager.solvingMode = mode
+                        AstrometryManager.sessionKey = result.session
+                        if (mode == ONE_PHOTO) {
+                            AstrometryManager.currentPhoto = FIRST_PHOTO
+                            view.findNavController().navigate(R.id.summaryOneFragment)
+                        } else {
+                            view.findNavController().navigate(R.id.summaryFragment)
+                        }
+                    },
+                    { error -> showError(error.message) }
+                )
     }
 }

@@ -6,8 +6,6 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,20 +28,6 @@ class OrientationFragment : Fragment(), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager
 
-//    private val handler = Handler {
-//        azimuth.setText(orientationAngles[0].toString())
-//        pitch.setText(orientationAngles[1].toString())
-//        roll.setText(orientationAngles[2].toString())
-//        return@Handler true
-//    }
-//
-//    private val runnable = Runnable {
-//        while (!isStop) {
-//            updateOrientationAngles()
-//            Thread.sleep(250)
-//        }
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,17 +39,27 @@ class OrientationFragment : Fragment(), SensorEventListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         orientation_button.setOnClickListener {
-            if (AstrometryManager.currentPhoto == 0) {
-                AstrometryManager.orientationAngles1[0] = (azimuth.text.toString().toDouble() * Math.PI / 180).toFloat()
-                AstrometryManager.orientationAngles1[1] = (pitch.text.toString().toDouble() * Math.PI / 180).toFloat()
-                AstrometryManager.orientationAngles1[2] = (roll.text.toString().toDouble() * Math.PI / 180).toFloat()
+            if (AstrometryManager.currentPhoto == FIRST_PHOTO || AstrometryManager.solvingMode == ONE_PHOTO) {
+                AstrometryManager.orientationAngles1[0] =
+                    (azimuth.text.toString().toDouble() * Math.PI / 180).toFloat()
+                AstrometryManager.orientationAngles1[1] =
+                    (pitch.text.toString().toDouble() * Math.PI / 180).toFloat()
+                AstrometryManager.orientationAngles1[2] =
+                    (roll.text.toString().toDouble() * Math.PI / 180).toFloat()
             } else {
-                AstrometryManager.orientationAngles2[0] = (azimuth.text.toString().toDouble() * Math.PI / 180).toFloat()
-                AstrometryManager.orientationAngles2[1] = (pitch.text.toString().toDouble() * Math.PI / 180).toFloat()
-                AstrometryManager.orientationAngles2[2] = (roll.text.toString().toDouble() * Math.PI / 180).toFloat()
+                AstrometryManager.orientationAngles2[0] =
+                    (azimuth.text.toString().toDouble() * Math.PI / 180).toFloat()
+                AstrometryManager.orientationAngles2[1] =
+                    (pitch.text.toString().toDouble() * Math.PI / 180).toFloat()
+                AstrometryManager.orientationAngles2[2] =
+                    (roll.text.toString().toDouble() * Math.PI / 180).toFloat()
             }
 
-            view.findNavController().navigate(R.id.summaryFragment)
+            if (AstrometryManager.solvingMode == ONE_PHOTO) {
+                view.findNavController().navigate(R.id.summaryOneFragment)
+            } else {
+                view.findNavController().navigate(R.id.summaryFragment)
+            }
         }
 
         auto_switch.setOnCheckedChangeListener { _, isChecked ->
@@ -139,7 +133,6 @@ class OrientationFragment : Fragment(), SensorEventListener {
 
         // "orientationAngles" now has up-to-date information.
         val a = (orientationAngles[0] * 180 / Math.PI)
-//        val a = Math.round((orientationAngles[0] * 180 / Math.PI) * 100) / 100
         val p = (orientationAngles[1] * 180 / Math.PI)
         val r = (orientationAngles[2] * 180 / Math.PI)
         azimuth.setText(a.toString())

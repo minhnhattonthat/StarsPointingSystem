@@ -2,10 +2,12 @@ package com.celestial.gps
 
 import java.io.File
 
-private const val ASTROMETRY_API_KEY = "muczweheoermnzwt"
+const val ASTROMETRY_API_KEY = "muczweheoermnzwt"
 
 const val FIRST_PHOTO = 0
 const val SECOND_PHOTO = 1
+const val ONE_PHOTO = 3
+const val TWO_PHOTO = 4
 
 object AstrometryManager {
 
@@ -27,5 +29,7 @@ object AstrometryManager {
 
     var orientationAngles1 = FloatArray(3)
     var orientationAngles2 = FloatArray(3)
+
+    var solvingMode = ONE_PHOTO
 
 }

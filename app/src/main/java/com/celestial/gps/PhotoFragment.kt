@@ -120,7 +120,7 @@ class PhotoFragment : BaseFragment() {
     }
 
     private fun uploadSuccess(subId: Int) {
-        if (AstrometryManager.currentPhoto == 0) {
+        if (AstrometryManager.currentPhoto == FIRST_PHOTO || AstrometryManager.solvingMode == ONE_PHOTO) {
             AstrometryManager.subId = subId
             AstrometryManager.jobs = emptyList()
             AstrometryManager.jobResult1 = null

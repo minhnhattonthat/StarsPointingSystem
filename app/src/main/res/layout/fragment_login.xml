@@ -6,11 +6,18 @@
     tools:context=".LoginFragment">
 
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/one_photo_mode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/log_in_btn" />
+        android:layout_gravity="center|start"
+        android:text="One Photo Mode" />
+
+    <Button
+        android:id="@+id/two_photo_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
+        android:text="Two Photo Mode" />
 
     <Button
         android:id="@+id/test_button"

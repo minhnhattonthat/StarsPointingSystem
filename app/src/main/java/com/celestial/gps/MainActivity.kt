@@ -43,8 +43,6 @@ private const val REQUEST_LIBRARY = 2
 private const val REQUEST_CAMERA_PERMISSION = 5
 private const val REQUEST_STORAGE_PERMISSION = 6
 
-private const val ASTROMETRY_API_KEY = "muczweheoermnzwt"
-
 private const val FIRST_PHOTO_1 = 0
 private const val SECOND_PHOTO_2 = 1
 
@@ -519,7 +517,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private fun calculateLocation() {
         if (checkEnoughData()) {
-            val day = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
             val location = getLocation(
                 ra1 = jobResult1?.calibration?.ra!!,
                 dec1 = jobResult1?.calibration?.dec!!,
@@ -528,7 +525,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 ra2 = jobResult2?.calibration?.ra!!,
                 dec2 = jobResult2?.calibration?.dec!!,
                 azimuth2 = orientationAngles2[0].toDouble(),
-                altitude2 = orientationAngles2[1].toDouble()
+                altitude2 = orientationAngles2[1].toDouble(),
+                timeInMillis = Calendar.getInstance().timeInMillis
             )
             longitude.text = location?.longitude.toString()
             latitude.text = location?.latitude.toString()
