@@ -144,15 +144,23 @@ class SummaryFragment : BaseFragment() {
 
     private fun calculateLocation() {
         if (checkEnoughData()) {
-            var azimuth1 = AstrometryManager.orientationAngles1[0].toDouble()
-            azimuth1 = if (azimuth1 < 0) azimuth1 + 2 * Math.PI else azimuth1
+            var azimuth1 = AstrometryManager.orientationAngles1[0].toDouble() + Math.PI / 2
+            if (azimuth1 > 2 * Math.PI) {
+                azimuth1 -= 2 * Math.PI
+            } else if (azimuth1 < 0) {
+                azimuth1 += 2 * Math.PI
+            }
 
-            var azimuth2 = AstrometryManager.orientationAngles2[0].toDouble()
-            azimuth2 = if (azimuth2 < 0) azimuth2 + 2 * Math.PI else azimuth2
+            var azimuth2 = AstrometryManager.orientationAngles2[0].toDouble() + Math.PI / 2
+            if (azimuth2 > 2 * Math.PI) {
+                azimuth2 -= 2 * Math.PI
+            } else if (azimuth2 < 0) {
+                azimuth2 += 2 * Math.PI
+            }
 
-            val altitude1 = AstrometryManager.orientationAngles1[1].toDouble()
+            val altitude1 = (AstrometryManager.orientationAngles1[1].toDouble() + Math.PI / 2) * (-1)
 
-            val altitude2 = AstrometryManager.orientationAngles2[1].toDouble()
+            val altitude2 = (AstrometryManager.orientationAngles2[1].toDouble() + Math.PI / 2) * (-1)
 
             val location = getLocation(
                 ra1 = AstrometryManager.jobResult1?.calibration?.ra!!,
