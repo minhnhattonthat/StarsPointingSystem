@@ -81,7 +81,7 @@ fun getLocationNew(
     var ra2 = ra1 + Math.toRadians(240.960164)
     ra2 = if (ra2 < 0) ra2 - 2 * Math.PI else ra2
 
-    val dec2 = dec1 + Math.toRadians(21.40824178)
+    val dec2 = dec1 - Math.toRadians(21.40824178)
 
     var azimuth1 = azimuth2 - Math.toRadians(240.960164)
     azimuth1 = if (azimuth1 < 0) azimuth1 + 2 * Math.PI else azimuth1
